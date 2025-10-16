@@ -1,4 +1,4 @@
-FROM openjdk:21-jdk-slim as builder
+FROM openjdk:21-jdk-slim AS builder
 
 WORKDIR /workspace/app
 
@@ -13,7 +13,7 @@ COPY src src
 
 RUN ./gradlew build -x test
 
-FROM openjdk:21-jre-slim
+FROM openjdk:21-slim
 
 VOLUME /tmp
 
