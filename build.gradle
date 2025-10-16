@@ -1,0 +1,51 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.5.6'
+	id 'io.spring.dependency-management' version '1.1.7'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+description = 'Demo project for Spring Boot'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(21)
+	}
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	// ✅ 기본 Spring Boot Starter
+	implementation 'org.springframework.boot:spring-boot-starter'
+
+	// ✅ 🔥 Web MVC + REST API 기능 (Controller, RestTemplate 등)
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+
+	// ✅ (선택) JSON 직렬화/역직렬화용 (RestTemplate에서 JSON 응답 파싱 시 유용)
+	implementation 'com.fasterxml.jackson.core:jackson-databind'
+
+	// ✅ Lombok
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+
+	// ✅ 개발 편의성 (자동 재시작)
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+	// ✅ 테스트
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
