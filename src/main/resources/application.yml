@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: Solog-Backend
+
+gemini:
+  api:
+    key: ${GEMINI_API_KEY}
+    url: ${GEMINI_API_URL}
+
+grafana:
+  url: ${GRAFANA_URL}
+  token: ${GRAFANA_TOKEN}
