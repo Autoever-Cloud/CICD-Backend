@@ -7,7 +7,7 @@ on:
       - main
 # 환경 변수 설정
 env:
-  DOCKERHUB_REPO: your-dockerhub-repository # Docker Hub 리포지토리 이름
+  DOCKERHUB_REPO: solog-backend # Docker Hub 리포지토리 이름
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -52,8 +52,13 @@ jobs:
           script: |
             docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.DOCKERHUB_REPO }}:${{ github.sha }}
-            if [ $(docker ps -q --filter "name=your-container-name") ]; then
-              docker stop your-container-name
-              docker rm your-container-name
+            if [ $(docker ps -q --filter "name=solog-backend") ]; then
+              docker stop solog-backend
+              docker rm solog-backend
             fi
-            docker run -d --name your-container-name -p 8080:8080 ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.DOCKERHUB_REPO }}:${{ github.sha }}
+            docker run -d --name solog-backend -p 8080:8080 \
+              -e GEMINI_API_KEY=${{ secrets.GEMINI_API_KEY }} \
+              -e GEMINI_API_URL='${{ secrets.GEMINI_API_URL }}' \
+              -e GRAFANA_URL=${{ secrets.GRAFANA_URL }} \
+              -e GRAFANA_TOKEN=${{ secrets.GRAFANA_TOKEN }} \
+              ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.DOCKERHUB_REPO }}:${{ github.sha }}
