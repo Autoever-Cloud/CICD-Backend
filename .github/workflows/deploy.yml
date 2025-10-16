@@ -52,9 +52,8 @@ jobs:
           script: |
             docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.DOCKERHUB_REPO }}:${{ github.sha }}
-            if [ $(docker ps -q --filter "name=solog-backend") ]; then
-              docker stop solog-backend
-              docker rm solog-backend
+            if [ $(docker ps -a -q --filter "name=solog-backend") ]; then
+              docker rm -f solog-backend
             fi
             docker run -d --name solog-backend -p 8080:8080 \
               -e OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }} \
